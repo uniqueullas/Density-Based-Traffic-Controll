@@ -83,7 +83,7 @@ def getContours(img,b,s,zz):
             idx += 1
             new_img = img_1[y:y + h, x:x + w]
             #cv2.imshow("croped" + str(idx), new_img)
-            cv2.imwrite(str(idx) + '.jpg', new_img)
+            cv2.imwrite(str(idx) + '.png', new_img)
 
             cv2.waitKey(15)
 
@@ -93,10 +93,10 @@ def capture_live_cam():
     for u in range(2):
         cap = cv2.VideoCapture(0)
         ret, imgt = cap.read()
-    cv2.imwrite("Shapes.jpg", imgt)
+    cv2.imwrite("Shapes.png", imgt)
 
 def fetch_image():
-    img = cv2.imread("Shapes.jpg", -1)
+    img = cv2.imread("Shapes.png", -1)
     imgContour = img.copy()
     imgGray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     imgBlur = cv2.GaussianBlur(imgGray, (7, 7), 1)
@@ -116,24 +116,24 @@ while y:
     cv2.waitKey(15)
 
     boxb = 0
-    image = cv2.imread("1.jpg", -1)
+    image = cv2.imread("1.png", -1)
     imgContour_1 = image.copy()
     imgGray_1 = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     imgBlur_1 = cv2.GaussianBlur(imgGray_1, (7, 7), 1)
     imgCanny_1 = cv2.Canny(imgBlur_1, 50, 100)
     imgContour_r,boxb = getContours_1(imgCanny_1,box)
     #cv2.imshow("canny_1", imgCanny_1)
-    cv2.imshow("this_1", imgContour_r)
+    cv2.imshow("Lane_1", imgContour_r)
 
     boxa = 0
-    image_a = cv2.imread("2.jpg", -1)
+    image_a = cv2.imread("2.png", -1)
     imgContour_2 = image_a.copy()
     imgGray_2 = cv2.cvtColor(image_a, cv2.COLOR_BGR2GRAY)
     imgBlur_2 = cv2.GaussianBlur(imgGray_2, (7, 7), 1)
     imgCanny_2 = cv2.Canny(imgBlur_2, 50, 100)
     imgContour_ra,boxa = getContours_2(imgCanny_2, box)
     #cv2.imshow("canny_2", imgCanny_2)
-    cv2.imshow("this_2", imgContour_ra)
+    cv2.imshow("Lane_2", imgContour_ra)
     cv2.imshow("Con", imgContour)
 
     if(cv2.waitKey()):
