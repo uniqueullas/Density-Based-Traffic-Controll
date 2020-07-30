@@ -9,7 +9,7 @@ def getContours_1(img,b):
     contours,hierarchy = cv2.findContours(img,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_NONE)
     for cnt in contours:
         area = cv2.contourArea(cnt)
-        if (2000 < area):
+        if (1500 < area):
             cv2.drawContours(imgContour_1,cnt,-1,(255,50,0),2)
             peri = cv2.arcLength(cnt,True)
             aprox = cv2.approxPolyDP(cnt,0.02*peri,False)
@@ -31,7 +31,7 @@ def getContours_2(img,b):
     contours,hierarchy = cv2.findContours(img,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_NONE)
     for cnt in contours:
         area = cv2.contourArea(cnt)
-        if (2000 < area):
+        if (1500 < area):
             cv2.drawContours(imgContour_2,cnt,-1,(255,50,0),2)
             peri = cv2.arcLength(cnt,True)
             aprox = cv2.approxPolyDP(cnt,0.02*peri,False)
@@ -70,7 +70,7 @@ def getContours(img,b,s,zz):
             cv2.drawContours(img, [bbox], 0, (0, 0, 255), 8)
 
             #print("x=%d y=%d w=%d h=%d" %(x,y,w,h))
-            if (3 < objCor <  10):
+            if (3 < objCor <  15):
                 box += 1;
                 objectType = "lane=%d a=%s"%(box,area)
                 #objectType = "w=%d h=%d a=%s" %(w,h,area)
@@ -102,7 +102,7 @@ def fetch_image():
     imgBlur = cv2.GaussianBlur(imgGray, (7, 7), 1)
     imgCanny = cv2.Canny(imgBlur, 50, 100)
     cv2.imshow("original", img)
-    #cv2.imshow("canny", imgCanny)
+    cv2.imshow("canny", imgCanny)
     return (imgCanny, imgContour, img)
 
 
