@@ -2,23 +2,63 @@ from tkinter import *
 import tkinter.font as tkFont
 CURRENT_TRAFFIC_MODE = "Normal Mode"
 
+root = Tk()
+root.geometry("700x500")
+root.title("Telaverge Communications")
+title = tkFont.Font(family="impact", size=30)
+heading_1 = tkFont.Font(family="Lucida Grande", size=10, )
+heading_2 = tkFont.Font(family="Lucida Grande", size=10)
+
+myLabel1 = Label(root, text="Density Based", fg='black', font=title)
+myLabel1.grid(row=0, column=0)
+myLabel1f = Label(root, text=" Smart ", fg='black', font=title)
+myLabel1f.grid(row=0, column=1)
+myLabel1l = Label(root, text="Traffic Control", fg='black', font=title)
+myLabel1l.grid(row=0, column=2)
+
+
+def login():
+    gap_l = Label(root, text="", fg='black', font=heading_1)
+    gap_l.grid(row=2, column=1)
+    gap_2 = Label(root, text="", fg='black', font=heading_1)
+    gap_2.grid(row=3, column=1)
+
+    User_l = Label(root, text="User name", fg='black', font=heading_1)
+    User_l.grid(row=5, column=0)
+    User= Entry(root, font=heading_1)  # ney
+    User.grid(row=5, column=1)
+
+    password_l= Label(root, text="Password", fg='black', font=heading_1)
+    password_l.grid(row=6, column=0)
+    password= Entry(root, font=heading_1)  # eey
+    password.grid(row=6, column=1)
+
+    def check():
+        print("user:", User.get())
+        print("pass:",password.get())
+        if(User.get()=="admin"):
+            if(password.get()=="admin"):
+                gap_l.grid_forget()
+                gap_2.grid_forget()
+                User_l.grid_forget()
+                User.grid_forget()
+                password_l.grid_forget()
+                password.grid_forget()
+                loggin.grid_forget()
+                gui(CURRENT_TRAFFIC_MODE)
+            else:
+                print("password worng")
+        else:
+            print("user name not found")
+
+    loggin= Button(root, text="login", command=check, padx=30, pady=4, fg='blue', font=heading_2)
+    loggin.grid(row=8, column=1)
+    root.mainloop()
+
+
+
 def gui(CURRENT_TRAFFIC_MODE):
     CURRENT_TRAFFIC_MODE = CURRENT_TRAFFIC_MODE
-    root = Tk()
-    root.geometry("700x500")
-    root.title("Telaverge Communications")
-    title = tkFont.Font(family="impact", size=30)
-    heading_1 = tkFont.Font(family="Lucida Grande", size=10,)
-    heading_2 = tkFont.Font(family="Lucida Grande", size=10)
-
-    myLabel1 = Label(root, text="Density Based",fg='black',font= title)
-    myLabel1.grid(row=0, column=0)
-    myLabel1f = Label(root, text=" Smart Traffic ", fg='black', font=title)
-    myLabel1f.grid(row=0, column=1)
-    myLabel1l = Label(root, text=" Control", fg='black', font=title)
-    myLabel1l.grid(row=0, column=2)
-
-
     myLabel2 = Label(root, text="MINIMUM_VEHICLE", fg='black', font=heading_1)
     myLabel2.grid(row=1, column=0)
     #myLabel2.pack()
@@ -91,4 +131,5 @@ def gui(CURRENT_TRAFFIC_MODE):
 
     root.mainloop()
 
-gui(CURRENT_TRAFFIC_MODE)
+#gui(CURRENT_TRAFFIC_MODE)
+login()
