@@ -111,9 +111,9 @@ def User_input_GUI():
         myLabel6.grid(row=6, column=0)
 
         Modesel_smart = Button(root, text="Auto Mode", command=auto, padx=20, pady=5, fg='red', font=heading_2)
-        Modesel_smart.grid(row=8, column=0)
+        Modesel_smart.grid(row=7, column=0)
         Modesel_normal = Button(root, text="Manual Mode", command=manual, padx=20, pady=5, fg='red', font=heading_2)
-        Modesel_normal.grid(row=8, column=1)
+        Modesel_normal.grid(row=7, column=1)
 
         gap_9 = Label(root, text="", fg='black', font=heading_1)
         gap_9.grid(row=9, column=2)
