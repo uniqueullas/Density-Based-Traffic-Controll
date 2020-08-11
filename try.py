@@ -1,3 +1,4 @@
+
 """
 import cv2
 img=cv2.imread("Shapes.png")
@@ -26,7 +27,6 @@ mylabel.pack(pady=20)
 button_quit = Button(root,text="exit",command=root.quit)
 button_quit.pack()
 root.mainloop()
-"""
 
 def hu():
     print("i am hu")
@@ -50,7 +50,13 @@ def numbers_to_strings(argument):
 #if __name__ == "__main__":
 argument = 'Manual Mode'
 print (numbers_to_strings(argument))
+"""
 
+import cv2
 
+img=cv2.imread("Shapes.png")
+dimension=(100,100)
+resized=cv2.resize(img,dimension)
 
-
+cv2.imshow('output',resized)
+cv2.waitKey()
