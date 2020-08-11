@@ -5,21 +5,18 @@ from base_file import *
 
 #image = density_calculation()
 #User_input_GUI()
-vehicleCount = 5; vehicleCountThreshold = 3 #sideA
+#vehicleCount = 1; vehicleCountThreshold = 3 #sideB
 
-vehicleCount = 1; vehicleCountThreshold = 3 #sideB
-
+imageCaptureVariable = False
 timePerVehicle = 3
+vehicleCountThreshold = 3
+vehicleCount = [0,5,0,6,1]
 
-smartModeFlag = False
-normalModeFlag = True
-
-
-#while(1):
-
-for road in range(1, 4):
-    if(vehicleCount > vehicleCountThreshold):
-        smartMode(timePerVehicle, vehicleCount, road)
+road = 1
+for road in range(1, 5):
+    print("vehicleCount:", vehicleCount[road])
+    if(vehicleCount[road] > vehicleCountThreshold):
+        smartMode(timePerVehicle, vehicleCount[road], road)
     else:
         normalMode(road)
     print("--------------------------------")

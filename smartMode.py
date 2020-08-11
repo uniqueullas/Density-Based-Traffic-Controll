@@ -7,34 +7,59 @@ Requirment for smart mode
 ●        Assign delay correspondingly
 """
 import time
-
+import threading
+imageCaptureVariable = False
 
 def ledControl(signalTime,road):
-    print("led function called")
-    print("signalTime:",signalTime)
+    totalSignalTime = (int(round(time.time() + signalTime)))
+    prasentTime = (int(round(time.time())))
     print("road:", road)
-    print("delay started..!")
-    time.sleep(signalTime)
+    while (totalSignalTime > prasentTime):
+        time.sleep(1)
+        #if((totalSignalTime - prasentTime)<3):
+        #r = global imageCaptureVariable
+        #print(r)
+        prasentTime = (int(round(time.time())))
+        print("Elapsing time:", totalSignalTime - prasentTime)
     print("ledControl Over")
 
 def normalMode(road):
-    print("this is nomalMode")
-    if (road < 4):
+    print("nomalMode")
+    ledControl(5, road)
+
+    """print("nomalMode")
+    if (road < 5):
         ledControl(5, road)
     else:
         if(smartModeFlag):
             smartMode(timePerVehicle=3,vehicleCount=2,road=0)
         else:
-            print("running normalMode again..!")
+            print("running normalMode again..!")"""
+
 
 def smartMode(timePerVehicle, vehicleCount, road):
-    print("this is smartMode")
+    print("smartMode")
     signalTime = (vehicleCount * timePerVehicle)
-    if (road <= 4):
+    ledControl(signalTime, road)
+
+    """if (road < 5):
         ledControl(signalTime,road)
     else:
         if(normalModeFlag):
             normalMOde(road)
         else:
-            print("running smartMode again..!")
+            print("running smartMode again..!")"""
 
+
+timePerVehicle = 3
+vehicleCountThreshold = 3
+vehicleCount = [0,5,0,6,1]
+road = 1
+
+for road in range(1, 5):
+    print("vehicleCount:", vehicleCount[road])
+    if(vehicleCount[road] > vehicleCountThreshold):
+        smartMode(timePerVehicle, vehicleCount[road], road)
+    else:
+        normalMode(road)
+    print("--------------------------------")
