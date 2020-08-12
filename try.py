@@ -75,7 +75,7 @@ print("finished..!")
 
 a = [1,2,5,3]
 print(type(a[2]))
-"""
+
 # Python program to illustrate the concept
 # of threading
 # importing the threading module
@@ -95,11 +95,26 @@ def printsquare(num):
     flag = True
     print("Square: {}".format(num * num))
 
-t1 = threading.Thread(target=printsquare, args=(10,))
-t2 = threading.Thread(target=printcube, args=(10,))
+
+t1 = threading.Thread(target=printsquare, args=(10, ))
+t2 = threading.Thread(target=printcube, args=(10, ))
 #printsquare(10)
 t1.start()
 t2.start()
 #t1.join()
 #t2.join()
 print("Done!")
+"""
+import time
+def t():
+    print("eeeeeeeeeeee")
+    time.sleep(3)
+
+def pr():
+    t()
+    print("uuuuuuuuuuuuuuuuu")
+    time.sleep(2)
+
+print("-----------------")
+pr()
+print("++++++++++++++++++")
