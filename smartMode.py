@@ -35,6 +35,7 @@ def normal_mode(road_normal):
     nt2 = threading.Thread(target=img_capture, args=())
     nt1.start()
     nt2.start()
+    nt1.join()
     nt2.join()
 
 
@@ -53,5 +54,5 @@ def img_capture():
     global image_capture_variable
     while image_capture_variable:
         pass
-    it = (input("-----vehicle_count:"))
+    it = (input("-----vehicle_count"))
     vehicle_count.append(int(it))
