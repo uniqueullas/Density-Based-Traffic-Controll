@@ -5,11 +5,7 @@ resized=cv2.resize(img,dimension)
 """
 
 from tkinter import *
-import cv2
-import numpy
 import tkinter.font as tkFont
-from PIL import ImageTk,Image
-
 
 def user_input_GUI():
     current_traffic_mode = "Normal Mode"
@@ -122,15 +118,15 @@ def user_input_GUI():
             Label(root, text=traffic_time_typed.get(), fg='black', font=heading_2).grid(row=2, column=2)
             Label(root, text=vehicle_pass_time_typed.get(), fg='black', font=heading_2).grid(row=3, column=2)
 
-        Button(root,text = "Submit all variables!", command = submit, padx =8, pady =3, fg='blue',
-               state='normal',repeatinterval=500,cursor='hand2',
+        Button(root, text="Submit all variables!", command=submit, padx=8, pady=3, fg='blue',
+               state='normal', repeatinterval=500, cursor='hand2',
                activebackground='blue',font= heading_2).grid(row=4, column=1,padx=1, pady=1,sticky=W)
         Label(root, text="", fg='black', font=heading_2).grid(row=5, column=2)
 
         def auto():
             current_traffic_mode = "Auto Mode  "
-            Label(root, text="Current Mode:" , fg='black', font=heading_2).grid(row=6, column=0)
-            Label(root, text= current_traffic_mode, fg='black', font=heading_2).grid(row=6, column=1)
+            Label(root, text="Current Mode:", fg='black', font=heading_2).grid(row=6, column=0)
+            Label(root, text=current_traffic_mode, fg='black', font=heading_2).grid(row=6, column=1)
             run_this()
 
         def manual():
@@ -158,10 +154,8 @@ def user_input_GUI():
             root.mainloop()
 
         Label(root, text="", fg='black', font=heading_2).grid(row=7, column=2)
-        Modesel_smart = Button(root, text="Auto Mode", command=auto, padx=20, pady=5, fg='red', font=heading_2)
-        Modesel_smart.grid(row=8, column=0)
-        Modesel_normal = Button(root, text="Manual Mode", command=manual, padx=20, pady=5, fg='red', font=heading_2)
-        Modesel_normal.grid(row=8, column=1)
+        Button(root, text="Auto Mode", command=auto, padx=20, pady=5, fg='red', font=heading_2).grid(row=8, column=0)
+        Button(root, text="Manual Mode", command=manual, padx=20, pady=5, fg='red', font=heading_2).grid(row=8, column=1)
         run_this()
     login()
     #second_window(current_traffic_mode)
