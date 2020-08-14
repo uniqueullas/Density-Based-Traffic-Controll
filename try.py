@@ -124,46 +124,7 @@ TestApp().run()
 
 
 
-from tkinter import *
-import tkinter.font as tkFont
-import time
-import threading
 
-def User_input_GUI():
-    CURRENT_TRAFFIC_MODE = "Normal Mode"
-
-    root = Tk()
-    root.geometry("601x700")
-    root.title("Telaverge Communications")
-    root.iconbitmap("TELALOGO.ico")
-    title = tkFont.Font(family="impact", size = 30)
-    heading_1 = tkFont.Font(family="Lucida Grande", size=10, )
-
-    Label(root, text="Density", fg = 'black', font=title).grid(row=0, column=0)
-    Label(root, text=" Based Smart", fg='black', font=title).grid(row=0, column=1)
-    Label(root, text=" Traffic", fg='black', font=title).grid(row=0, column=2)
-    Label(root, text=" Control", fg='black', font=title).grid(row=0, column=3)
-    print("--------------------------------------------------------------------------------------")
-
-    def again():
-        i = ti()
-        ser = str(i)
-        Label(root, text=ser, fg='black', font=heading_1).grid(row=2, column=2)
-        root.after(1000, again)
-
-    def ti():
-        i_a = (int(round(time.time())))
-        return i_a
-
-    again()
-    root.mainloop()
-
-
-#for i in range(5):
-        #print(i)
-        #ser = str(i)
-
-User_input_GUI()
 #for i in range(2, 5):
 #print(i)
 
@@ -175,7 +136,7 @@ sidea=cv2.resize(cv2.imread("Shapes.png"),dimension)
 cv2.imshow('output', sidea)
 cv2.imwrite("Shapes_resized.png", sidea)
 cv2.waitKey()
-"""
+
 from tkinter import *
 
 top = Tk()
@@ -192,3 +153,56 @@ mylist.grid(row=0,column=0)
 sb.config(command=mylist.yview)
 
 mainloop()
+
+
+from tkinter import *
+import tkinter.font as tkFont
+import time
+import threading
+i_a = 0
+
+def User_input_GUI():
+    CURRENT_TRAFFIC_MODE = "Normal Mode"
+
+    root = Tk()
+    root.geometry("601x700")
+    root.title("Telaverge Communications")
+    root.iconbitmap("TELALOGO.ico")
+    title = tkFont.Font(family="impact", size = 30)
+    heading_1 = tkFont.Font(family="Lucida Grande", size=10, )
+
+    Label(root, text="Density", fg='black', font=title).grid(row=0, column=0)
+    Label(root, text=" Based Smart", fg='black', font=title).grid(row=0, column=1)
+    Label(root, text=" Traffic", fg='black', font=title).grid(row=0, column=2)
+    Label(root, text=" Control", fg='black', font=title).grid(row=0, column=3)
+    print("--------------------------------------------------------------------------------------")
+
+    def m():
+        global i_a
+        print("500")
+        i_a = i_a + 1
+        root.after(500, m)
+
+
+    def again():
+        global i_a
+        #i = ti()
+        print("1000")
+        ser = str(i_a)
+        Label(root, text=ser, fg='black', font=heading_1).grid(row=2, column=2)
+        root.after(1000, again)
+
+    s1 = threading.Thread(target=m)
+    s2 = threading.Thread(target=again)
+    s1.start()
+    s2.start()
+
+    root.mainloop()
+
+User_input_GUI()"""
+
+import time
+timeObj = time.localtime(time.time())
+s = str('Current TimeStamp is : %d-%d-%d %d:%d:%d' % (timeObj.tm_mday, timeObj.tm_mon, timeObj.tm_year,
+                                                      timeObj.tm_hour, timeObj.tm_min, timeObj.tm_sec))
+print(s)
