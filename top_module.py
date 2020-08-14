@@ -14,7 +14,7 @@ time_per_vehicle = 3
 vehicle_count_threshold = 3
 
 
-def doso():
+def mode_selection():
     while 1:
         for road in range(1, 5):
             print("vehicle_count:", vehicle_count[road], end='') #vehicle_count[] list is declared in smartMode.py
@@ -23,7 +23,7 @@ def doso():
             else:
                 normal_mode(road)
         print("Finished Iteration")
-#doso()
+mode_selection()
 
 """gui = threading.Thread(target=User_input_GUI, args=())
 cal = threading.Thread(target=doso, args=())

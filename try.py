@@ -201,8 +201,11 @@ def User_input_GUI():
 
 User_input_GUI()"""
 
+from User_input_GUI import *
 import time
 timeObj = time.localtime(time.time())
 s = str('Current TimeStamp is : %d-%d-%d %d:%d:%d' % (timeObj.tm_mday, timeObj.tm_mon, timeObj.tm_year,
                                                       timeObj.tm_hour, timeObj.tm_min, timeObj.tm_sec))
 print(s)
+while 1:
+    elapsing_time = int(timeObj.tm_sec)
