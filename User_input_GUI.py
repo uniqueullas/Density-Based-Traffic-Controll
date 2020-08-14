@@ -12,9 +12,9 @@ import tkinter.font as tkFont
 import threading
 import time
 
-minimum_vehicle = 0
-traffic_time = 0
-vehicle_pass_time = 0
+minimum_vehicle = 3
+traffic_time = 5
+vehicle_pass_time = 3
 
 
 def login():
@@ -30,10 +30,10 @@ def login():
     password_typed.grid(row=6, column=1)
 
     def check():
-        if user_typed.get() != "admin":
+        if user_typed.get() != "":
             Label(root, text="user id not found", fg='black', font=heading_2).grid(row=7, column=1, sticky=E)
         else:
-            if password_typed.get() != "admin":
+            if password_typed.get() != "":
                 Label(root, text="wrong password", fg='black', font=heading_2).grid(row=7, column=1, sticky=E)
             else:
                 Label(root, text="                        ", fg='black', font=heading_2).grid(row=7, column=1, sticky=E)
@@ -47,9 +47,9 @@ def login():
                 guith_1.start()
                 guith_2.start()
 
-    Label(root, text="  ", fg='black', font=heading_2).grid(row=7, column=2)
     loggin_button = Button(root, text="login", command=check, padx=30, pady=4, fg='blue', font=heading_2)
     loggin_button.grid(row=8, column=1)
+    Label(root, text="  ").grid(row=9, column=2)
 
 
 def update_every_sec():
@@ -60,40 +60,50 @@ def update_every_sec():
     Label(root, text=traffic_time, fg='black', font=heading_2).grid(row=2, column=3)
     Label(root, text=vehicle_pass_time, fg='black', font=heading_2).grid(row=3, column=3)
     timeObj = time.localtime(time.time())
-    c_time = str('TimeStamp: %d-%d-%d %d:%d:%d' % (timeObj.tm_mday, timeObj.tm_mon, timeObj.tm_year,
+    c_time = str('Time Stamp:%d/%d/%d %d:%d:%d' % (timeObj.tm_mday, timeObj.tm_mon, timeObj.tm_year,
                                                    timeObj.tm_hour, timeObj.tm_min, timeObj.tm_sec))
     Label(root, text=c_time, fg='black', font=heading_2).grid(row=8, column=2, columnspan=2)
-    root.after(1000, update_every_sec)
+    root.after(500, update_every_sec)
 
 
 def second_window(current_traffic_mode):
     Label(root, text="").grid(row=50, column=3)
     Label(root, text="Vehicle Threshold:", fg='black', font=heading_2).grid(row=1, column=0,sticky=E)
-    minimum_vehicle_typed= Entry(root,font=heading_2)
+    minimum_vehicle_typed = Entry(root,font=heading_2)
     minimum_vehicle_typed.grid(row=1, column=1,padx=1, pady=1,sticky=W)
-    up = PhotoImage(file="up.png")
-    down = PhotoImage(file="down.png")
-    Button(root, image=up, padx=2, pady=3, cursor='hand2', activebackground='red',) \
-        .grid(row=1, column=1,padx=1, pady=1,sticky=E)
-    Button(root, image=down, padx=8, pady=3, cursor='hand2', activebackground='red', ) \
-        .grid(row=1, column=2, padx=1, pady=1, sticky=W)
     Label(root, text="Vehicle Per Time:", fg='black', font=heading_2).grid(row=2, column=0,sticky=E)
     traffic_time_typed = Entry(root, font=heading_2)
     traffic_time_typed.grid(row=2, column=1, padx=1, pady=1,sticky=W)
-    Button(root, image=up, padx=8, pady=3, cursor='hand2', activebackground='red', ) \
-        .grid(row=2, column=1, padx=1, pady=1, sticky=E)
-    Button(root, image=down, padx=8, pady=3, cursor='hand2', activebackground='red', ) \
-        .grid(row=2, column=2, padx=1, pady=1, sticky=W)
     Label(root, text="Normal delay:", fg='black', font=heading_2).grid(row=3, column=0,sticky=E)
     vehicle_pass_time_typed = Entry(root, font=heading_2)
     vehicle_pass_time_typed.grid(row=3, column=1, padx=1, pady=1,sticky=W)
-    Button(root, image=up, padx=8, pady=3, repeatinterval=5000, cursor='hand2', activebackground='red', ) \
-        .grid(row=3, column=1, padx=1, pady=1, sticky=E)
-    Button(root, image=down, padx=8, pady=3, repeatinterval=5000, cursor='hand2', activebackground='red', ) \
-        .grid(row=3, column=2, padx=1, pady=1, sticky=W)
     Button(root, text="Auto Mode", command=auto, padx=20, pady=5, fg='red', font=heading_2).grid(row=8, column=0)
     Button(root, text="Manual Mode", command=manual, padx=20, pady=5, fg='red', font=heading_2).grid(row=8, column=1)
     Label(root, text="  ", fg='black', font=heading_2).grid(row=20, column=0)
+
+    def incmv():
+        global minimum_vehicle
+        minimum_vehicle = minimum_vehicle + 1
+
+    def decmv():
+        global minimum_vehicle
+        minimum_vehicle = minimum_vehicle - 1
+
+    def inctt():
+        global traffic_time
+        traffic_time = traffic_time + 1
+
+    def dectt():
+        global traffic_time
+        traffic_time = traffic_time - 1
+
+    def incvpt():
+        global vehicle_pass_time
+        vehicle_pass_time = vehicle_pass_time + 1
+
+    def decvpt():
+        global vehicle_pass_time
+        vehicle_pass_time = vehicle_pass_time - 1
 
     def submit():
         global minimum_vehicle
@@ -104,7 +114,25 @@ def second_window(current_traffic_mode):
         vehicle_pass_time = vehicle_pass_time_typed.get()
     Button(root, text="Submit all variables!", command=submit, padx=8, pady=3, fg='blue',
            state='normal', repeatinterval=500, cursor='hand2',
-           activebackground='blue',font= heading_2).grid(row=4, column=1,padx=1, pady=1,sticky=W)
+           activebackground='black',font= heading_2).grid(row=4, column=1,padx=1, pady=1,sticky=W)
+    Button(root,text="+", command=incmv, padx=1, pady=1, fg='black',
+           state='normal', repeatinterval=500, cursor='hand2',
+           activebackground='red', font=heading_2).grid(row=1, column=1, padx=1, pady=1, sticky=E)
+    Button(root, text="-", command=decmv, fg='black',
+           state='normal', repeatinterval=500, cursor='hand2',
+           activebackground='blue', font=heading_2).grid(row=1, column=2, padx=1, pady=1, sticky=W)
+    Button(root, text="+", command=inctt, padx=1, pady=1, fg='black',
+           state='normal', repeatinterval=500, cursor='hand2',
+           activebackground='red', font=heading_2).grid(row=2, column=1, padx=1, pady=1, sticky=E)
+    Button(root, text="-", command=dectt, fg='black',
+           state='normal', repeatinterval=500, cursor='hand2',
+           activebackground='blue', font=heading_2).grid(row=2, column=2, padx=1, pady=1, sticky=W)
+    Button(root, text="+", command=incvpt, padx=1, pady=1, fg='black',
+           state='normal', repeatinterval=500, cursor='hand2',
+           activebackground='red', font=heading_2).grid(row=3, column=1, padx=1, pady=1, sticky=E)
+    Button(root, text="-", command=decvpt, fg='black',
+           state='normal', repeatinterval=500, cursor='hand2',
+           activebackground='blue', font=heading_2).grid(row=3, column=2, padx=1, pady=1, sticky=W)
     Label(root, text="", fg='black', font=heading_2).grid(row=5, column=2)
     root.mainloop()
 
