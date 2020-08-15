@@ -11,7 +11,7 @@ from tkinter import *
 import tkinter.font as tkFont
 import threading
 import time
-#from smartMode import *
+from smartMode import *
 
 minimum_vehicle = 3
 traffic_time = 5
@@ -19,11 +19,27 @@ vehicle_pass_time = 3
 show_elapsing_time = False
 
 
-def get_elapsing_time():
-    timeObj = time.localtime(time.time())
-    elapsing = timeObj.tm_sec
-    road = 1
-    return elapsing, road
+
+
+
+"""def ela_control(signal_time=6):
+    global ele_time_disp
+    total_signal_time = (int(round(time.time() + signal_time)))
+    present_time = (int(round(time.time())))
+    print_time = (int(round(time.time())))
+    while total_signal_time >= present_time:
+        if (total_signal_time - present_time) < 3:
+            global image_capture_variable
+            image_capture_variable = False
+        else:
+            image_capture_variable = True
+        current_time = (int(round(time.time())))
+        if current_time == print_time:
+            print_time = (int(round(time.time()+1)))
+            ele_time_disp = total_signal_time - present_time
+            print("Elapsing time:", ele_time_disp)
+            present_time = (int(round(time.time())))
+    print("--------------------led control over")"""
 
 
 def login():
@@ -57,10 +73,10 @@ def login():
                 loggin_button.grid_forget()
                 guith_1 = threading.Thread(target=second_window, args=(current_traffic_mode,))
                 guith_2 = threading.Thread(target=update_every_sec)
-                #guith_3 = threading.Thread(target=mode_selection)
+                guith_3 = threading.Thread(target=mode_selection)
                 guith_1.start()
                 guith_2.start()
-                #guith_3.start()
+                guith_3.start()
 
     loggin_button = Button(root, text="login", command=check, padx=30, pady=4, fg='blue', font=heading_2)
     loggin_button.grid(row=8, column=1)
@@ -187,7 +203,7 @@ def second_window(current_traffic_mode):
     Button(root, text="X", command=quit, padx=1, pady=1, fg='black',
            state='normal', repeatinterval=500, cursor='hand2',
            activebackground='black', font=heading_2).grid(row=1, column=4, padx=1, pady=1, sticky=E+N)
-    root.mainloop()
+    #root.mainloop()
 
 
 def auto():
