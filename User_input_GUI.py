@@ -16,30 +16,16 @@ from smartMode import *
 minimum_vehicle = 3
 traffic_time = 5
 vehicle_pass_time = 3
+
 show_elapsing_time = False
-
-
-
-
-
-"""def ela_control(signal_time=6):
-    global ele_time_disp
-    total_signal_time = (int(round(time.time() + signal_time)))
-    present_time = (int(round(time.time())))
-    print_time = (int(round(time.time())))
-    while total_signal_time >= present_time:
-        if (total_signal_time - present_time) < 3:
-            global image_capture_variable
-            image_capture_variable = False
-        else:
-            image_capture_variable = True
-        current_time = (int(round(time.time())))
-        if current_time == print_time:
-            print_time = (int(round(time.time()+1)))
-            ele_time_disp = total_signal_time - present_time
-            print("Elapsing time:", ele_time_disp)
-            present_time = (int(round(time.time())))
-    print("--------------------led control over")"""
+manual_a = "STOP"
+manual_b = "STOP"
+manual_c = "STOP"
+manual_d = "STOP"
+manual_road1 = "red"
+manual_road2 = "red"
+manual_road3 = "red"
+manual_road4 = "red"
 
 
 def login():
@@ -73,13 +59,14 @@ def login():
                 loggin_button.grid_forget()
                 guith_1 = threading.Thread(target=second_window, args=(current_traffic_mode,))
                 guith_2 = threading.Thread(target=update_every_sec)
-                guith_3 = threading.Thread(target=mode_selection)
                 guith_1.start()
                 guith_2.start()
-                guith_3.start()
 
     loggin_button = Button(root, text="login", command=check, padx=30, pady=4, fg='blue', font=heading_2)
     loggin_button.grid(row=8, column=1)
+    Button(root, text="X", command=quit, padx=1, pady=1, fg='white', bg='red',
+           state='normal', repeatinterval=500, cursor='hand2',
+           activebackground='black', font=heading_2).grid(row=1, column=4, padx=1, pady=1, sticky=E + N)
     Label(root, text="  ").grid(row=9, column=2)
     root.mainloop()
 
@@ -118,30 +105,32 @@ def update_every_sec():
         et_3 = Label(root, text=elapsing_time3, height=1, width=4, bg='yellow', fg=road3, font=score)
         et_4 = Label(root, text=elapsing_time4, height=1, width=4, bg='yellow', fg=road4, font=score)
     else:
-        et_1 = Label(root, text="--", height=1, width=4, bg='yellow', fg=road1, font=score)
-        et_2 = Label(root, text="--", height=1, width=4, bg='yellow', fg=road2, font=score)
-        et_3 = Label(root, text="--", height=1, width=4, bg='yellow', fg=road3, font=score)
-        et_4 = Label(root, text="--", height=1, width=4, bg='yellow', fg=road4, font=score)
-    et_1.grid(row=12, column=0)
-    et_2.grid(row=12, column=1)
-    et_3.grid(row=12, column=2)
-    et_4.grid(row=12, column=3)
-    #root.mainloop()
+        global manual_a, manual_b, manual_c, manual_d, manual_road1, manual_road2, manual_road3, manual_road4
+        et_1 = Label(root, text=manual_a, height=1, width=4, bg='yellow', fg=manual_road1, font=score)
+        et_2 = Label(root, text=manual_b, height=1, width=4, bg='yellow', fg=manual_road2, font=score)
+        et_3 = Label(root, text=manual_c, height=1, width=4, bg='yellow', fg=manual_road3, font=score)
+        et_4 = Label(root, text=manual_d, height=1, width=4, bg='yellow', fg=manual_road4, font=score)
+    Label(root, text="", height=1, width=15).grid(row=10, column=4)
+    Label(root, text="", height=1, width=15).grid(row=12, column=0)
+    et_1.grid(row=13, column=0)
+    et_2.grid(row=13, column=1)
+    et_3.grid(row=13, column=2)
+    et_4.grid(row=13, column=3)
     root.after(1000, update_every_sec)
 
 
 def second_window(current_traffic_mode):
     Label(root, text="").grid(row=50, column=3)
     Label(root, text="Vehicle Threshold:", fg='black', font=heading_2).grid(row=1, column=0,sticky=E)
-    minimum_vehicle_typed = Entry(root,font=heading_2)
-    minimum_vehicle_typed.grid(row=1, column=1,padx=1, pady=1,sticky=W)
+    minimum_vehicle_typed = Entry(root, font=heading_2)
+    minimum_vehicle_typed.grid(row=1, column=1, padx=2, pady=1, sticky=E)
     Label(root, text="Vehicle Per Time:", fg='black', font=heading_2).grid(row=2, column=0,sticky=E)
-    traffic_time_typed = Entry(root, font=heading_2)
-    traffic_time_typed.grid(row=2, column=1, padx=1, pady=1,sticky=W)
+    vehicle_per_time_typed = Entry(root, font=heading_2)
+    vehicle_per_time_typed.grid(row=2, column=1, padx=1, pady=1, sticky=E)
     Label(root, text="Normal delay:", fg='black', font=heading_2).grid(row=3, column=0,sticky=E)
     vehicle_pass_time_typed = Entry(root, font=heading_2)
-    vehicle_pass_time_typed.grid(row=3, column=1, padx=1, pady=1,sticky=W)
-    Button(root, text="Auto Mode", command=auto, padx=20, pady=5, fg='red', font=heading_2).grid(row=8, column=0)
+    vehicle_pass_time_typed.grid(row=3, column=1, padx=1, pady=1, sticky=E)
+    Button(root, text="Auto Mode", command=auto_smart, padx=20, pady=5, fg='red', font=heading_2).grid(row=8, column=0)
     Button(root, text="Manual Mode", command=manual, padx=20, pady=5, fg='red', font=heading_2).grid(row=8, column=1)
     Label(root, text="  ", fg='black', font=heading_2).grid(row=20, column=0)
     Label(root, text="Current Mode:", fg='black', font=heading_2).grid(row=6, column=0, sticky=E)
@@ -176,11 +165,11 @@ def second_window(current_traffic_mode):
         global traffic_time
         global vehicle_pass_time
         minimum_vehicle = int(minimum_vehicle_typed.get())
-        traffic_time = int(traffic_time_typed.get())
+        traffic_time = int(vehicle_per_time_typed.get())
         vehicle_pass_time = int(vehicle_pass_time_typed.get())
-    Button(root, text="Submit all variables!", command=submit, padx=8, pady=3, fg='blue',
+    Button(root, text="Submit All Variables!", command=submit, padx=8, pady=3, fg='blue',
            state='normal', repeatinterval=500, cursor='hand2',
-           activebackground='black',font= heading_2).grid(row=4, column=1,padx=1, pady=1,sticky=W)
+           activebackground='black',font= heading_2).grid(row=4, column=1,padx=1, pady=1,sticky=E)
     Button(root,text="+", command=incmv, padx=1, pady=1, fg='black',
            state='normal', repeatinterval=500, cursor='hand2',
            activebackground='red', font=heading_2).grid(row=1, column=1, padx=1, pady=1, sticky=E)
@@ -200,10 +189,18 @@ def second_window(current_traffic_mode):
            state='normal', repeatinterval=500, cursor='hand2',
            activebackground='blue', font=heading_2).grid(row=3, column=2, padx=1, pady=1, sticky=W)
     Label(root, text="", fg='black', font=heading_2).grid(row=5, column=2)
-    Button(root, text="X", command=quit, padx=1, pady=1, fg='black',
-           state='normal', repeatinterval=500, cursor='hand2',
-           activebackground='black', font=heading_2).grid(row=1, column=4, padx=1, pady=1, sticky=E+N)
+    #Button(root, text="X", command=quit, padx=1, pady=1, fg='white', bg='red', state='normal', repeatinterval=500, cursor='hand2', activebackground='black', font=heading_2).grid(row=1, column=4, padx=1, pady=1, sticky=E + N)
     #root.mainloop()
+
+
+def auto_smart():
+    #time.sleep(2)
+    #root.mainloop()
+    th1 = threading.Thread(target=auto)
+    th2 = threading.Thread(target=mode_selection)
+    th1.start()
+    th2.start()
+
 
 
 def auto():
@@ -220,25 +217,54 @@ def auto():
     Label(root, text="Side C", fg='black', font=heading_2).grid(row=10, column=2)
     Label(root, text="Side D", fg='black', font=heading_2).grid(row=10, column=3)
     psidea = PhotoImage(file="Shapes_resized.png")
-    Label(root, image=psidea, height=120, width=100, compound=TOP, bg='black').grid(row=11, column=0)
     psideb = PhotoImage(file="Shapes_resized.png")
-    Label(root, image=psideb, height=120, width=100, compound=TOP, bg='black').grid(row=11, column=1)
     psidec = PhotoImage(file="Shapes_resized.png")
-    Label(root, image=psidec, height=120, width=100, compound=TOP, bg='black').grid(row=11, column=2)
     psided = PhotoImage(file="Shapes_resized.png")
-    Label(root, image=psided, height=120, width=100, compound=TOP, bg='black').grid(row=11, column=3)
-    root.mainloop()
+    Label(root, image=psidea, height=120, width=100).grid(row=11, column=0)
+    Label(root, image=psideb, height=120, width=100).grid(row=11, column=1)
+    Label(root, image=psidec, height=120, width=100).grid(row=11, column=2)
+    Label(root, image=psided, height=120, width=100).grid(row=11, column=3)
+    Button(root, text="X", command=stop_auto, padx=1, pady=1, fg='white', bg='red',
+           state='normal', repeatinterval=500, cursor='hand2',
+           activebackground='black', font=heading_2).grid(row=1, column=4, padx=1, pady=1, sticky=E + N)
+    global st_auto
+    while ~st_auto:
+        pass
+    #Button(root, text="X", command=quit, padx=1, pady=1, fg='white', bg='red', state='normal', repeatinterval=500, cursor='hand2', activebackground='black', font=heading_2).grid(row=1, column=4, padx=1, pady=1, sticky=E + N)
 
 
 def manual():
+    stop_auto()
     current_traffic_mode = "Manual Mode"
     global show_elapsing_time
     show_elapsing_time = False
-    Label(root, text="", height=1, width=15).grid(row=10, column=4)
-    Label(root, text="", height=10, width=20).grid(row=11, column=4)
+    global manual_a, manual_b, manual_c, manual_d, manual_road1, manual_road2, manual_road3, manual_road4
+    manual_a = "STOP"; manual_b = "STOP"; manual_c = "STOP"; manual_d = "STOP"
+    manual_road1 = "red"; manual_road2 = "red"; manual_road3 = "red"; manual_road4 = "red"
     Label(root, text="", fg='black', font=heading_2).grid(row=5, column=2)
     Label(root, text="Current Mode:", fg='black', font=heading_2).grid(row=6, column=0, sticky=E)
     Label(root, text=current_traffic_mode, fg='black', font=heading_2).grid(row=6, column=1, sticky=W)
+
+    def fsidea():
+        global manual_a, manual_b, manual_c, manual_d, manual_road1, manual_road2, manual_road3, manual_road4
+        manual_a = "GO!"; manual_b = "STOP"; manual_c = "STOP"; manual_d = "STOP"
+        manual_road1 = "green"; manual_road2 = "red"; manual_road3 = "red"; manual_road4 = "red"
+        
+    def fsideb():
+        global manual_a, manual_b, manual_c, manual_d, manual_road1, manual_road2, manual_road3, manual_road4
+        manual_a = "STOP"; manual_b = "GO!"; manual_c = "STOP"; manual_d = "STOP"
+        manual_road1 = "red"; manual_road2 = "green"; manual_road3 = "red"; manual_road4 = "red"
+        
+    def fsidec():
+        global manual_a, manual_b, manual_c, manual_d, manual_road1, manual_road2, manual_road3, manual_road4
+        manual_a = "STOP"; manual_b = "STOP"; manual_c = "GO!"; manual_d = "STOP"
+        manual_road1 = "red"; manual_road2 = "red"; manual_road3 = "green"; manual_road4 = "red"
+        
+    def fsided():
+        global manual_a, manual_b, manual_c, manual_d, manual_road1, manual_road2, manual_road3, manual_road4
+        manual_a = "STOP"; manual_b = "STOP"; manual_c = "STOP"; manual_d = "GO!"
+        manual_road1 = "red"; manual_road2 = "red"; manual_road3 = "red"; manual_road4 = "green"
+
     sidea = PhotoImage(file="arrow_left.png")
     sideb = PhotoImage(file="arrow_up.png")
     sidec = PhotoImage(file="arrow_down.png")
@@ -247,10 +273,11 @@ def manual():
     Label(root, text="Side B", fg='black', font=heading_2).grid(row=10, column=1)
     Label(root, text="Side C", fg='black', font=heading_2).grid(row=10, column=2)
     Label(root, text="Side D", fg='black', font=heading_2).grid(row=10, column=3)
-    Button(root, text="Click", image=sidea, height=120, width=100, compound=TOP, bg='white').grid(row=11, column=0)
-    Button(root, text="Click", image=sideb, height=120, width=100, compound=TOP, bg='white').grid(row=11, column=1)
-    Button(root, text="Click", image=sidec, height=120, width=100, compound=TOP, bg='white').grid(row=11, column=2)
-    Button(root, text="Click", image=sided, height=120, width=100, compound=TOP, bg='white').grid(row=11, column=3)
+    Button(root, text="Click", image=sidea, command=fsidea, height=120, width=100, compound=TOP, bg='white').grid(row=11, column=0)
+    Button(root, text="Click", image=sideb, command=fsideb, height=120, width=100, compound=TOP, bg='white').grid(row=11, column=1)
+    Button(root, text="Click", image=sidec, command=fsidec, height=120, width=100, compound=TOP, bg='white').grid(row=11, column=2)
+    Button(root, text="Click", image=sided, command=fsided, height=120, width=100, compound=TOP, bg='white').grid(row=11, column=3)
+    #Button(root, text="X", command=quit, padx=1, pady=1, fg='white', bg='red',state='normal', repeatinterval=500, cursor='hand2',activebackground='black', font=heading_2).grid(row=1, column=4, padx=1, pady=1, sticky=E + N)
     root.mainloop()
 
 current_traffic_mode = "Normal Mode"
@@ -268,5 +295,6 @@ Label(root, text="Smart", fg='black', font=title).grid(row=0, column=2,sticky=E+
 Label(root, text="Traffic", fg='black', font=title).grid(row=0, column=3,sticky=E+W)
 Label(root, text="Control", fg='black', font=title).grid(row=0, column=4,sticky=E+W)
 Label(root, text="", fg='black', font=heading_2).grid(row=7, column=2)
+#Button(root, text="X", command=stop_auto, padx=1, pady=1, fg='white', bg='red', state='normal', repeatinterval=500, cursor='hand2', activebackground='black', font=heading_2).grid(row=1, column=4, padx=1, pady=1, sticky=E + N)
 login()
 root.mainloop()

@@ -7,11 +7,17 @@
 import time
 import threading
 image_capture_variable = True
-vehicle_count = [0, 1, 8, 9, 2]
+vehicle_count = [0, 1, 5, 0, 0]
 time_per_vehicle = 3
 vehicle_count_threshold = 3
 ele_time_disp = 0
 road_led = 0
+st_auto = False
+
+
+def stop_auto():
+    global st_auto
+    st_auto = True
 
 
 def get_elapsing_time():
@@ -22,33 +28,38 @@ def get_elapsing_time():
 
 def mode_selection():
     #while 1:
+    global st_auto
+    st_auto = False
     for road in range(1, 5):
         print("vehicle_count:", vehicle_count[road], end='') #vehicle_count[] list is declared in smartMode.py
         if vehicle_count[road] > vehicle_count_threshold:
             smart_mode(time_per_vehicle, vehicle_count[road], road)
         else:
             normal_mode(road)
+        time.sleep(1)
         print("Finished Iteration")
 
 
 def led_control(signal_time, road):
     global road_led
     road_led = road
-    print("-----road:", road_led)
+    print("-----road+:", road_led)
     total_signal_time = (int(round(time.time() + signal_time)))
     present_time = (int(round(time.time())))
     print_time = (int(round(time.time())))
-    while total_signal_time >= present_time:
+    while total_signal_time > present_time or total_signal_time == present_time:
+        global st_auto
+        if st_auto:
+            break
         if (total_signal_time - present_time) < 3:
             global image_capture_variable
-            global ele_time_disp
             image_capture_variable = False
         else:
             image_capture_variable = True
         current_time = (int(round(time.time())))
         if current_time == print_time:
+            global ele_time_disp
             print_time = (int(round(time.time()+1)))
-            print("")
             ele_time_disp = total_signal_time - present_time
             print("Elapsing time:", ele_time_disp)
             present_time = (int(round(time.time())))
