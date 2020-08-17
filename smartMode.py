@@ -8,11 +8,13 @@ import time
 import threading
 image_capture_variable = True
 vehicle_count = [0, 1, 5, 0, 0]
-time_per_vehicle = 3
-vehicle_count_threshold = 3
 ele_time_disp = 0
 road_led = 0
 st_auto = False
+
+time_per_vehicle = 0
+vehicle_threshold = 0
+normal_delay = 0
 
 
 def stop_auto():
@@ -32,7 +34,7 @@ def mode_selection():
     st_auto = False
     for road in range(1, 5):
         print("vehicle_count:", vehicle_count[road], end='') #vehicle_count[] list is declared in smartMode.py
-        if vehicle_count[road] > vehicle_count_threshold:
+        if vehicle_count[road] > vehicle_threshold:
             smart_mode(time_per_vehicle, vehicle_count[road], road)
         else:
             normal_mode(road)
@@ -67,8 +69,9 @@ def led_control(signal_time, road):
 
 
 def normal_mode(road_normal):
+    global normal_delay
     print("--------------------normal mode--------------", end='')
-    nt1 = threading.Thread(target=led_control, args=(15, road_normal,))
+    nt1 = threading.Thread(target=led_control, args=(normal_delay, road_normal,))
     nt2 = threading.Thread(target=img_capture, args=())
     nt1.start()
     nt2.start()
@@ -91,7 +94,3 @@ def img_capture():
     global image_capture_variable
     while image_capture_variable:
         pass
-    #it = (input("-----vehicle_count:"))
-    #vehicle_count.append(int(it))
-
-#mode_selection()

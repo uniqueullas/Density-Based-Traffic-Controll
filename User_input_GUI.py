@@ -9,13 +9,9 @@ Normal delay"""
 
 from tkinter import *
 import tkinter.font as tkFont
-import threading
-import time
 from smartMode import *
+import smartMode
 
-minimum_vehicle = 3
-traffic_time = 5
-vehicle_pass_time = 3
 
 show_elapsing_time = False
 manual_a = "STOP"
@@ -31,7 +27,7 @@ manual_road4 = "red"
 def login():
     Label(root, text="", fg='black', font=heading_2).grid(row=2, column=1)
     Label(root, text="", fg='black', font=heading_2).grid(row=3, column=1)
-    user_asked = Label(root, text="user name", fg='black', font=heading_2)
+    user_asked = Label(root, text="User Name", fg='black', font=heading_2)
     user_asked.grid(row=5, column=0)
     user_typed = Entry(root, font=heading_2)
     user_typed.grid(row=5, column=1)
@@ -62,7 +58,7 @@ def login():
                 guith_1.start()
                 guith_2.start()
 
-    loggin_button = Button(root, text="login", command=check, padx=30, pady=4, fg='blue', font=heading_2)
+    loggin_button = Button(root, text="Login", command=check, padx=30, pady=4, fg='blue', font=heading_2)
     loggin_button.grid(row=8, column=1)
     Button(root, text="X", command=quit, padx=1, pady=1, fg='white', bg='red',
            state='normal', repeatinterval=500, cursor='hand2',
@@ -72,29 +68,26 @@ def login():
 
 
 def update_every_sec():
-    global minimum_vehicle
-    global traffic_time
-    global vehicle_pass_time
     global show_elapsing_time
     elapsing, road = get_elapsing_time()
     if road == 1:
         road1 = 'green'; road2 = 'red'; road3 = 'red'; road4 = 'red'
-        elapsing_time1 = elapsing; elapsing_time2 = elapsing; elapsing_time3 = "--"; elapsing_time4 = "--"
+        elapsing_time1 = elapsing; elapsing_time2 = (elapsing+1); elapsing_time3 = "--"; elapsing_time4 = "--"
     elif road == 2:
         road1 = 'red'; road2 = 'green'; road3 = 'red'; road4 = 'red'
-        elapsing_time1 = "--"; elapsing_time2 = elapsing; elapsing_time3 = elapsing; elapsing_time4 = "--"
+        elapsing_time1 = "--"; elapsing_time2 = elapsing; elapsing_time3 = (elapsing+1); elapsing_time4 = "--"
     elif road == 3:
         road1 = 'red'; road2 = 'red'; road3 = 'green'; road4 = 'red'
-        elapsing_time1 = "--"; elapsing_time2 = "--"; elapsing_time3 = elapsing; elapsing_time4 = elapsing
+        elapsing_time1 = "--"; elapsing_time2 = "--"; elapsing_time3 = elapsing; elapsing_time4 = (elapsing+1)
     elif road == 4:
         road1 = 'red'; road2 = 'red'; road3 = 'red'; road4 = 'green'
-        elapsing_time1 = elapsing; elapsing_time2 = "--"; elapsing_time3 = "--"; elapsing_time4 = elapsing
+        elapsing_time1 = (elapsing+1); elapsing_time2 = "--"; elapsing_time3 = "--"; elapsing_time4 = elapsing
     else:
         road2 = 'black'; road3 = 'black'; road1 = 'black'; road4 = 'black'
         elapsing_time1 = "--"; elapsing_time2 = "--"; elapsing_time3 = "--"; elapsing_time4 = "--"
-    Label(root, text=minimum_vehicle, fg='black', font=heading_2).grid(row=1, column=1, sticky=W)
-    Label(root, text=traffic_time, fg='black', font=heading_2).grid(row=2, column=1, sticky=W)
-    Label(root, text=vehicle_pass_time, fg='black', font=heading_2).grid(row=3, column=1, sticky=W)
+    Label(root, text=smartMode.vehicle_threshold, fg='black', font=heading_2).grid(row=1, column=1, sticky=W)
+    Label(root, text=smartMode.time_per_vehicle, fg='black', font=heading_2).grid(row=2, column=1, sticky=W)
+    Label(root, text=smartMode.normal_delay, fg='black', font=heading_2).grid(row=3, column=1, sticky=W)
     timeObj = time.localtime(time.time())
     c_time = str('Time Stamp:%d/%d/%d %d:%d:%d' % (timeObj.tm_mday, timeObj.tm_mon, timeObj.tm_year,
                                                    timeObj.tm_hour, timeObj.tm_min, timeObj.tm_sec))
@@ -122,14 +115,14 @@ def update_every_sec():
 def second_window(current_traffic_mode):
     Label(root, text="").grid(row=50, column=3)
     Label(root, text="Vehicle Threshold:", fg='black', font=heading_2).grid(row=1, column=0,sticky=E)
-    minimum_vehicle_typed = Entry(root, font=heading_2)
-    minimum_vehicle_typed.grid(row=1, column=1, padx=2, pady=1, sticky=E)
-    Label(root, text="Vehicle Per Time:", fg='black', font=heading_2).grid(row=2, column=0,sticky=E)
-    vehicle_per_time_typed = Entry(root, font=heading_2)
-    vehicle_per_time_typed.grid(row=2, column=1, padx=1, pady=1, sticky=E)
-    Label(root, text="Normal delay:", fg='black', font=heading_2).grid(row=3, column=0,sticky=E)
-    vehicle_pass_time_typed = Entry(root, font=heading_2)
-    vehicle_pass_time_typed.grid(row=3, column=1, padx=1, pady=1, sticky=E)
+    vehicle_threshold_typed = Entry(root, font=heading_2)
+    vehicle_threshold_typed.grid(row=1, column=1, padx=2, pady=1, sticky=E)
+    Label(root, text="Time Per Vehicle:", fg='black', font=heading_2).grid(row=2, column=0,sticky=E)
+    time_per_vehicle_typed = Entry(root, font=heading_2)
+    time_per_vehicle_typed.grid(row=2, column=1, padx=1, pady=1, sticky=E)
+    Label(root, text="Normal Delay:", fg='black', font=heading_2).grid(row=3, column=0,sticky=E)
+    normal_delay_typed = Entry(root, font=heading_2)
+    normal_delay_typed.grid(row=3, column=1, padx=1, pady=1, sticky=E)
     Button(root, text="Auto Mode", command=auto_smart, padx=20, pady=5, fg='red', font=heading_2).grid(row=8, column=0)
     Button(root, text="Manual Mode", command=manual, padx=20, pady=5, fg='red', font=heading_2).grid(row=8, column=1)
     Label(root, text="  ", fg='black', font=heading_2).grid(row=20, column=0)
@@ -137,36 +130,27 @@ def second_window(current_traffic_mode):
     Label(root, text=current_traffic_mode, fg='black', font=heading_2).grid(row=6, column=1, sticky=W)
 
     def incmv():
-        global minimum_vehicle
-        minimum_vehicle = minimum_vehicle + 1
+        smartMode.vehicle_threshold = smartMode.vehicle_threshold + 1
 
     def decmv():
-        global minimum_vehicle
-        minimum_vehicle = minimum_vehicle - 1
+        smartMode.vehicle_threshold = smartMode.vehicle_threshold - 1
 
     def inctt():
-        global traffic_time
-        traffic_time = traffic_time + 1
+        smartMode.time_per_vehicle = smartMode.time_per_vehicle + 1
 
     def dectt():
-        global traffic_time
-        traffic_time = traffic_time - 1
+        smartMode.time_per_vehicle = smartMode.time_per_vehicle - 1
 
     def incvpt():
-        global vehicle_pass_time
-        vehicle_pass_time = vehicle_pass_time + 1
+        smartMode.normal_delay = smartMode.normal_delay + 1
 
     def decvpt():
-        global vehicle_pass_time
-        vehicle_pass_time = vehicle_pass_time - 1
+        smartMode.normal_delay = smartMode.normal_delay - 1
 
     def submit():
-        global minimum_vehicle
-        global traffic_time
-        global vehicle_pass_time
-        minimum_vehicle = int(minimum_vehicle_typed.get())
-        traffic_time = int(vehicle_per_time_typed.get())
-        vehicle_pass_time = int(vehicle_pass_time_typed.get())
+        smartMode.vehicle_threshold = int(vehicle_threshold_typed.get())
+        smartMode.time_per_vehicle = int(time_per_vehicle_typed.get())
+        smartMode.normal_delay = int(normal_delay_typed.get())
     Button(root, text="Submit All Variables!", command=submit, padx=8, pady=3, fg='blue',
            state='normal', repeatinterval=500, cursor='hand2',
            activebackground='black',font= heading_2).grid(row=4, column=1,padx=1, pady=1,sticky=E)
@@ -189,23 +173,18 @@ def second_window(current_traffic_mode):
            state='normal', repeatinterval=500, cursor='hand2',
            activebackground='blue', font=heading_2).grid(row=3, column=2, padx=1, pady=1, sticky=W)
     Label(root, text="", fg='black', font=heading_2).grid(row=5, column=2)
-    #Button(root, text="X", command=quit, padx=1, pady=1, fg='white', bg='red', state='normal', repeatinterval=500, cursor='hand2', activebackground='black', font=heading_2).grid(row=1, column=4, padx=1, pady=1, sticky=E + N)
-    #root.mainloop()
 
 
 def auto_smart():
-    #time.sleep(2)
-    #root.mainloop()
     th1 = threading.Thread(target=auto)
     th2 = threading.Thread(target=mode_selection)
     th1.start()
     th2.start()
 
 
-
 def auto():
     global current_traffic_mode
-    current_traffic_mode = "Auto Mode    "
+    current_traffic_mode = "Auto Mode                  "
     global show_elapsing_time
     show_elapsing_time = True
     Label(root, text="", fg='black', font=heading_2).grid(row=5, column=2)
@@ -230,12 +209,11 @@ def auto():
     global st_auto
     while ~st_auto:
         pass
-    #Button(root, text="X", command=quit, padx=1, pady=1, fg='white', bg='red', state='normal', repeatinterval=500, cursor='hand2', activebackground='black', font=heading_2).grid(row=1, column=4, padx=1, pady=1, sticky=E + N)
 
 
 def manual():
     stop_auto()
-    current_traffic_mode = "Manual Mode"
+    current_traffic_mode = "Manual Mode              "
     global show_elapsing_time
     show_elapsing_time = False
     global manual_a, manual_b, manual_c, manual_d, manual_road1, manual_road2, manual_road3, manual_road4
@@ -277,10 +255,9 @@ def manual():
     Button(root, text="Click", image=sideb, command=fsideb, height=120, width=100, compound=TOP, bg='white').grid(row=11, column=1)
     Button(root, text="Click", image=sidec, command=fsidec, height=120, width=100, compound=TOP, bg='white').grid(row=11, column=2)
     Button(root, text="Click", image=sided, command=fsided, height=120, width=100, compound=TOP, bg='white').grid(row=11, column=3)
-    #Button(root, text="X", command=quit, padx=1, pady=1, fg='white', bg='red',state='normal', repeatinterval=500, cursor='hand2',activebackground='black', font=heading_2).grid(row=1, column=4, padx=1, pady=1, sticky=E + N)
     root.mainloop()
 
-current_traffic_mode = "Normal Mode"
+current_traffic_mode = "Click any mode to start"
 root = Tk()
 #root.geometry("1000x200")
 root.title("Telaverge Communications")
@@ -295,6 +272,5 @@ Label(root, text="Smart", fg='black', font=title).grid(row=0, column=2,sticky=E+
 Label(root, text="Traffic", fg='black', font=title).grid(row=0, column=3,sticky=E+W)
 Label(root, text="Control", fg='black', font=title).grid(row=0, column=4,sticky=E+W)
 Label(root, text="", fg='black', font=heading_2).grid(row=7, column=2)
-#Button(root, text="X", command=stop_auto, padx=1, pady=1, fg='white', bg='red', state='normal', repeatinterval=500, cursor='hand2', activebackground='black', font=heading_2).grid(row=1, column=4, padx=1, pady=1, sticky=E + N)
 login()
 root.mainloop()
