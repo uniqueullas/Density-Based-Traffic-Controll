@@ -4,13 +4,14 @@ import numpy as np
 def density_calculation():
     y=1
     idx = 0
-    def getContours_1(img,b):
-        print("getContours_1")
+
+    def getcontours_1(img,b):                               # lane detection
+        print("getcontours_1")
         box=b
         contours,hierarchy = cv2.findContours(img,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_NONE)
         for cnt in contours:
             area = cv2.contourArea(cnt)
-            if (1500 < area):
+            if 1500 < area:
                 cv2.drawContours(imgContour_1,cnt,-1,(255,50,0),2)
                 peri = cv2.arcLength(cnt,True)
                 aprox = cv2.approxPolyDP(cnt,0.02*peri,False)
@@ -24,10 +25,10 @@ def density_calculation():
                 cv2.putText(imgContour_1,objectType,
                             (x+(w//2)-80,y+(h//2)+50),cv2.FONT_HERSHEY_COMPLEX,0.7,(0,0,0),1)
         print("number of objects in line 1", box)
-        return (imgContour_1,box)
+        return imgContour_1, box
 
-    def getContours_2(img,b):
-        print("getContours_2")
+    def getcontours_2(img,b):                               # object detection
+        print("getcontours_2")
         box=b
         contours,hierarchy = cv2.findContours(img,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_NONE)
         for cnt in contours:
@@ -48,8 +49,8 @@ def density_calculation():
         print("number of objects in line 2", box)
         return (imgContour_2,box)
 
-    def getContours(img,b,s,zz):
-        print("getContours")
+    def getcontours(img,b,s,zz):
+        print("getcontours")
         box=b
         idx = s
         img_1 = zz
@@ -59,8 +60,6 @@ def density_calculation():
             if (15000 < area): # < 20000):
                 cv2.drawContours(imgContour,cnt,-1,(255,50,0),2)
                 peri = cv2.arcLength(cnt,True)
-                #print("peri:")
-                #print(peri)
                 aprox = cv2.approxPolyDP(cnt,0.02*peri,False)
                 objCor = len(aprox)
                 x, y, w, h = cv2.boundingRect(aprox)
@@ -88,6 +87,7 @@ def density_calculation():
 
                 cv2.waitKey(15)
 
+
     def capture_live_cam():
         print("fetch_live_cam")
         #cap = cv2.VideoCapture(0)
@@ -113,7 +113,7 @@ def density_calculation():
         print("While1")
         box = 0
         tri = 0
-        getContours(imgCanny, box, idx, img)
+        getcontours(imgCanny, box, idx, img)
         cv2.waitKey(15)
 
         boxb = 0
@@ -122,7 +122,7 @@ def density_calculation():
         imgGray_1 = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         imgBlur_1 = cv2.GaussianBlur(imgGray_1, (7, 7), 1)
         imgCanny_1 = cv2.Canny(imgBlur_1, 50, 100)
-        imgContour_r,boxb = getContours_1(imgCanny_1,box)
+        imgContour_r,boxb = getcontours_1(imgCanny_1,box)
         #cv2.imshow("canny_1", imgCanny_1)
         cv2.imshow("Lane_1", imgContour_r)
 
@@ -132,7 +132,7 @@ def density_calculation():
         imgGray_2 = cv2.cvtColor(image_a, cv2.COLOR_BGR2GRAY)
         imgBlur_2 = cv2.GaussianBlur(imgGray_2, (7, 7), 1)
         imgCanny_2 = cv2.Canny(imgBlur_2, 50, 100)
-        imgContour_ra,boxa = getContours_2(imgCanny_2, box)
+        imgContour_ra,boxa = getcontours_2(imgCanny_2, box)
         #cv2.imshow("canny_2", imgCanny_2)
         cv2.imshow("Lane_2", imgContour_ra)
         cv2.imshow("Con", imgContour)
@@ -141,3 +141,5 @@ def density_calculation():
             y = 0
             cv2.destroAllWindows()
     return(img)
+
+density_calculation()

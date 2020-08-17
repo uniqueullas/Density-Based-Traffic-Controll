@@ -4,6 +4,8 @@
   ○  signal_time =(vehicle_countSignalD)x(time_per_vehicle)
   ○  VEHICLE_PASS_TIME = time taken for 1 vehicle to pass the signal [variable]
 ● Assign delay correspondingly"""
+
+from base_file import *
 import time
 import threading
 image_capture_variable = True
@@ -29,7 +31,6 @@ def get_elapsing_time():
 
 
 def mode_selection():
-    #while 1:
     global st_auto
     st_auto = False
     for road in range(1, 5):

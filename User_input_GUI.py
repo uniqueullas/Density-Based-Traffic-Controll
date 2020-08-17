@@ -6,12 +6,10 @@ resized=cv2.resize(img,dimension)
 Vehicle Threshold
 Vehicle Per Time
 Normal delay"""
-
 from tkinter import *
 import tkinter.font as tkFont
 from smartMode import *
 import smartMode
-
 
 show_elapsing_time = False
 manual_a = "STOP"
