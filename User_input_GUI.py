@@ -9,7 +9,9 @@ Normal delay"""
 from tkinter import *
 import tkinter.font as tkFont
 from smartMode import *
+from base_file import *
 import smartMode
+
 
 show_elapsing_time = False
 manual_a = "STOP"
@@ -189,10 +191,13 @@ def auto():
     Label(root, text="Current Mode:", fg='black', font=heading_2).grid(row=6, column=0, sticky=E)
     Label(root, text=current_traffic_mode, fg='black', font=heading_2).grid(row=6, column=1, sticky=W)
     Label(root, text="", fg='black', font=heading_2).grid(row=9, column=1)
-    Label(root, text="Side A", fg='black', font=heading_2).grid(row=10, column=0)
-    Label(root, text="Side B", fg='black', font=heading_2).grid(row=10, column=1)
-    Label(root, text="Side C", fg='black', font=heading_2).grid(row=10, column=2)
-    Label(root, text="Side D", fg='black', font=heading_2).grid(row=10, column=3)
+    img, a, b = density_calculation()
+    txta = "Side_A:", str(a)
+    #txta = str("Side_A:", a)
+    Label(root, text=txta, fg='black', font=heading_2).grid(row=10, column=0)
+    Label(root, text="Side_B", fg='black', font=heading_2).grid(row=10, column=1)
+    Label(root, text="Side_C", fg='black', font=heading_2).grid(row=10, column=2)
+    Label(root, text="Side_D", fg='black', font=heading_2).grid(row=10, column=3)
     psidea = PhotoImage(file="Shapes_resized.png")
     psideb = PhotoImage(file="Shapes_resized.png")
     psidec = PhotoImage(file="Shapes_resized.png")
@@ -204,6 +209,7 @@ def auto():
     Button(root, text="X", command=stop_auto, padx=1, pady=1, fg='white', bg='red',
            state='normal', repeatinterval=500, cursor='hand2',
            activebackground='black', font=heading_2).grid(row=1, column=4, padx=1, pady=1, sticky=E + N)
+    #root.mainloop()
     global st_auto
     while ~st_auto:
         pass

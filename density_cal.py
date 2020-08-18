@@ -13,7 +13,7 @@ import numpy as np
 vehicle_count = 0
 
 
-def fetch_image(camera_en=0,image_path='Shapes_new.png'):
+def fetch_image(camera_en=0,image_path='Sa.png'):
     if camera_en:
         for u in range(2):
             captured_image = cv2.VideoCapture(0)
@@ -36,7 +36,7 @@ def detect_lane(cannyimage, output_image):
     contours, hierarchy = cv2.findContours(cannyimage, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
     for cnt in contours:
         object_area = cv2.contourArea(cnt)
-        if 80000 < object_area:
+        if 8000 < object_area:
             cv2.drawContours(output_image, cnt, -1, (255, 50, 0), 2)
             perimeter = cv2.arcLength(cnt, True)
             approximate_sides = cv2.approxPolyDP(cnt, 0.02*perimeter, False)

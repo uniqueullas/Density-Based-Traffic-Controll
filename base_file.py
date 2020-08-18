@@ -1,8 +1,9 @@
 import cv2
 import numpy as np
 
+
 def density_calculation():
-    y=1
+    y = 1
     idx = 0
 
     def getcontours_1(img,b):                               # lane detection
@@ -101,7 +102,8 @@ def density_calculation():
         imgContour = img.copy()
         imgGray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         imgBlur = cv2.GaussianBlur(imgGray, (7, 7), 1)
-        imgCanny = cv2.Canny(imgBlur, 50, 100)
+        imgCanny = cv2.Canny\
+            (imgBlur, 50, 100)
         cv2.imshow("original", img)
         cv2.imshow("canny", imgCanny)
         return (imgCanny, imgContour, img)
@@ -115,7 +117,6 @@ def density_calculation():
         tri = 0
         getcontours(imgCanny, box, idx, img)
         cv2.waitKey(15)
-
         boxb = 0
         image = cv2.imread("1.png", -1)
         imgContour_1 = image.copy()
@@ -124,8 +125,7 @@ def density_calculation():
         imgCanny_1 = cv2.Canny(imgBlur_1, 50, 100)
         imgContour_r,boxb = getcontours_1(imgCanny_1,box)
         #cv2.imshow("canny_1", imgCanny_1)
-        cv2.imshow("Lane_1", imgContour_r)
-
+        """#cv2.imshow("Lane_1", imgContour_r)#"""
         boxa = 0
         image_a = cv2.imread("2.png", -1)
         imgContour_2 = image_a.copy()
@@ -134,12 +134,17 @@ def density_calculation():
         imgCanny_2 = cv2.Canny(imgBlur_2, 50, 100)
         imgContour_ra,boxa = getcontours_2(imgCanny_2, box)
         #cv2.imshow("canny_2", imgCanny_2)
-        cv2.imshow("Lane_2", imgContour_ra)
-        cv2.imshow("Con", imgContour)
 
-        if(cv2.waitKey()):
-            y = 0
-            cv2.destroAllWindows()
-    return(img)
+        """#cv2.imshow("Lane_2", imgContour_ra)
+        cv2.imshow("Con", imgContour)"""#
+        y = 0
 
-density_calculation()
+        #if(cv2.waitKey()):
+            #y = 0
+            #cv2.destroAllWindows()
+    return(img, boxa, boxb)
+
+
+#i, a, b = density_calculation()
+#print("a:", a)
+#print("b:", b)
